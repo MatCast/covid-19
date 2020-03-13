@@ -49,4 +49,4 @@ def predict_nation(nation, dasy_to_model=15, min_cases=50):
     return model
 
 
-model = predict_nation('Austria', 8, 5)
+model = predict_nation('Italy', 8, 5)
