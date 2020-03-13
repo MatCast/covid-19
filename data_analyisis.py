@@ -1,5 +1,4 @@
 import pandas as pd
-import requests
 import matplotlib.pyplot as plt
 import statsmodels.api as sm
 import numpy as np
@@ -29,15 +28,15 @@ plt.yscale('log')
 plt.savefig('cases_per_land.png')
 plt.show()
 
+
 def predict_nation(nation, dasy_to_model=15, min_cases=50):
     Y = np.log(large[nation][large[nation] > 50].values)
     X = sm.add_constant(np.array(range(len(Y))))
     model = sm.OLS(Y, X).fit()
-    print(model.summary())
     italy = large[nation][large[nation] > min_cases].values
     max_days = italy.shape[0] + dasy_to_model
     modelled = (large[nation][large[nation] > min_cases]
-    .iloc[0]*np.exp(model.params[1]*np.arange(1, max_days)))
+                .iloc[0]*np.exp(model.params[1]*np.arange(1, max_days)))
     plt.title(nation)
     plt.plot(modelled, label='Modello', linewidth=3.0)
     plt.plot(italy, label='Dati Reali', linewidth=3.0)
@@ -46,7 +45,8 @@ def predict_nation(nation, dasy_to_model=15, min_cases=50):
     plt.ylabel('Numero di contagiati')
     plt.gca().yaxis.grid(True)
     plt.legend()
-    plt.savefig('model_vs_relaity_{}.png'.format(nation))
+    plt.savefig('model_vs_reality_{}.png'.format(nation))
     return model
 
-model = predict_nation('Austria', 8, 5)
+
+model = predict_nation('Italy', 8, 5)
